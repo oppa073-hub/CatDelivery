@@ -129,7 +129,7 @@ public class PlayerStatePattern : MonoBehaviour
             SetState(new DeadState(this));
 
             // 게임매니저에 알림
-            GameManager.Instance.OnPlayerDead();
+            GameManager.Instance.GameOver();
 
             return;
         }

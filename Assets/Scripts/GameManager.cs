@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -6,6 +7,11 @@ public class GameManager : MonoBehaviour
     public GameState State { get; private set; }
     public float limitTime = 60f;
     private float currentTime;
+
+
+    public event Action OnGameOver;
+    public event Action OnStageClear;
+    public event Action<float> OnTimeChanged;
 
     private void Awake()
     {
@@ -25,35 +31,34 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         State = GameState.Playing;
-        currentTime = Time.time;
+        currentTime = limitTime;
     }
 
     private void Update()
     {
         if (State != GameState.Playing) return;
 
-        currentTime = Time.time;
+        currentTime -= Time.deltaTime;
+        OnTimeChanged?.Invoke(currentTime);
         if (currentTime <= 0f)
         {
-            currentTime = 0; OnTimeOver();
+            currentTime = 0f;
+            GameOver();
         }
     }
 
-    public void OnTimeOver()
+    public void GameOver()
     {
         State = GameState.GameOver;
+        OnGameOver?.Invoke();  // UI, 사운드 등 자동 반응
         // UI 띄우기, 재시작 버튼 등
     }
-    public void OnPlayerDead()
-    {
-        if (State != GameState.Playing) return;
-        State = GameState.GameOver;
-        // UI 띄우기, 재시작 등
-    }
-    public void OnStageClear()
+  
+    public void StageClear()
     {
         if (State != GameState.Playing) return; 
         State = GameState.Clear;
+        OnStageClear?.Invoke();
         // 클리어 UI 등 }
 
     }
