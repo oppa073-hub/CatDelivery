@@ -16,9 +16,13 @@ public class JumpState : IPlayerState
 
     public void Enter()
     {
-        Vector2 velocity = rigid.linearVelocity;
+        if (player.JumpCount < player.MaxJumpCount)
+        {
+            Vector2 velocity = rigid.linearVelocity;
         velocity.y = jumpForce;
         rigid.linearVelocity = velocity;
+            player.AddJumpCount();
+        }
     }
 
     public void Exit()
@@ -28,8 +32,13 @@ public class JumpState : IPlayerState
 
     public void Update()
     {
+        if (!player.IsGround)
+        {
+            return;
+        }
         if (player.IsGround)
         {
+          
             if (player.MoveInput.sqrMagnitude < 0.01f)
             {
                 player.SetState(new IdleStat(player));

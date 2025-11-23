@@ -25,7 +25,7 @@ public class IdleStat : IPlayerState
 
     public void Update()
     {
-        if (player.IsGround && player.JumpPressed)
+        if (player.JumpPressed && player.JumpCount < player.MaxJumpCount)
         {
             player.SetState(new JumpState(player));
             return;

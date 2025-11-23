@@ -1,21 +1,30 @@
-﻿using UnityEngine;
-using UnityEngine.Playables;
+﻿using System.Xml;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 public class PlayerStatePattern : MonoBehaviour
 {
+    [SerializeField] private int maxHp = 6;
+    [SerializeField] private float invincibleDuration = 0.5f;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundChecker;
     [SerializeField] private float groundCheckDistance = 0.1f;
-
+    [SerializeField] private int maxJumpCount = 2;
     [SerializeField] private PlayerInput playerInput;
+
+    private int currentHp;
+    private bool isInvincible;
+    private float invincibleTimer;
+
 
     private Rigidbody2D rigid;      
     private Vector2 moveInput;
 
     private bool isGround;           
     private bool jumpPressed;
+    private bool isJumping;
 
     public float MoveSpeed => moveSpeed;
     public float JumpForce => jumpForce;
@@ -25,7 +34,17 @@ public class PlayerStatePattern : MonoBehaviour
     public bool JumpPressed => jumpPressed;
     public Rigidbody2D Rigidbody => rigid;
     public bool IsGround => isGround;
+    public bool IsJumping => isJumping;
     public Vector2 MoveInput => moveInput;
+    public int CurrentHp => currentHp;
+    public bool IsInvincible => isInvincible;
+
+
+    private int jumpCount;
+    public int JumpCount => jumpCount;
+    public int MaxJumpCount => maxJumpCount;
+    public void ResetJumpCount() => jumpCount = 0;
+    public void AddJumpCount() => jumpCount++;
 
     private IPlayerState currentState; // 현재 플레이어 상태 객체
 
@@ -35,6 +54,8 @@ public class PlayerStatePattern : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();             // Rigidbody2D 캐싱
+
+        currentHp = maxHp;
 
         var action = playerInput.actions;               // PlayerInput에서 액션맵 가져오기
         moveAction = action["MoveAction"];              // "MoveAction" 이름의 액션
@@ -58,6 +79,16 @@ public class PlayerStatePattern : MonoBehaviour
 
         // 4) Jump 입력은 1프레임짜리 플래그이므로 처리 후 초기화
         jumpPressed = false;
+
+        if (isInvincible)
+        {
+            invincibleTimer -= Time.deltaTime;
+            if (invincibleTimer <=  0f)
+            {
+                isInvincible = false;
+            }
+
+        }
     }
 
     private void ReadInput()
@@ -80,8 +111,43 @@ public class PlayerStatePattern : MonoBehaviour
             Vector2.down,
             groundCheckDistance,
             groundLayer);
+        if (IsGround && Rigidbody.linearVelocity.y <= 0)
+        {
+            ResetJumpCount();
+        }
     }
 
+    public void TakeDamage(int dmg)
+    {
+        if (isInvincible) return;
+        currentHp -= dmg;
+
+        if (currentHp <= 0)
+        {
+            currentHp = 0;
+
+            // 게임매니저에 알림
+            //GameManager.Instance.OnPlayerDead();
+
+            // 죽는 상태로 전환
+            SetState(new DeadState(this));
+            return;
+        }
+
+        isInvincible = true;
+        invincibleTimer = invincibleDuration;
+
+        SetState(new HurtState(this));
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Enemy") ||
+            collision.collider.CompareTag("Obstacle"))
+        {
+            TakeDamage(1);
+        }
+    }
 
     public void SetState(IPlayerState newState)
     {

@@ -34,7 +34,7 @@ public class RunState : IPlayerState
         }
 
         // 2) 땅 위 + 점프 입력 → Jump 상태로 전환
-        if (player.IsGround && player.JumpPressed)
+        if (player.JumpPressed && player.JumpCount < player.MaxJumpCount)
         {
             player.SetState(new JumpState(player));
             return;
