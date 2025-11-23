@@ -125,12 +125,12 @@ public class PlayerStatePattern : MonoBehaviour
         if (currentHp <= 0)
         {
             currentHp = 0;
-
-            // 게임매니저에 알림
-            //GameManager.Instance.OnPlayerDead();
-
             // 죽는 상태로 전환
             SetState(new DeadState(this));
+
+            // 게임매니저에 알림
+            GameManager.Instance.OnPlayerDead();
+
             return;
         }
 
