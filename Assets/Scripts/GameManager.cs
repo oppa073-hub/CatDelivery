@@ -30,8 +30,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        State = GameState.Playing;
+        State = GameState.Ready;
         currentTime = limitTime;
+        Time.timeScale = 0f;
     }
 
     private void Update()
@@ -45,6 +46,16 @@ public class GameManager : MonoBehaviour
             currentTime = 0f;
             GameOver();
         }
+    }
+
+    public void GameStart()
+    {
+        if (State != GameState.Ready) return;
+
+        State = GameState.Playing;
+        currentTime = limitTime;  // 필요하면 시작 시점에 타이머 리셋
+        Time.timeScale = 1f;      // 🔹 게임 재생
+        // 여기서 타이틀 패널 끄고 HUD 켜는 것도 가능
     }
 
     public void GameOver()

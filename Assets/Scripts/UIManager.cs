@@ -5,7 +5,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-     
+    private GameObject StartPanel;
 
     private void Awake()
     {
@@ -21,5 +21,18 @@ public class UIManager : MonoBehaviour
         // 아래의 함수를 사용하여 씬이 전환되더라도 선언되었던 인스턴스가 파괴되지 않는다.
         DontDestroyOnLoad(gameObject);
     }
+
+    private void Start()
+    {
+        StartPanel = GameObject.Find("StartText");
+    }
+
+    public void SetStartPanel()
+    {
+        GameManager.Instance.GameStart();
+        StartPanel.SetActive(false);
+    }
+
+
 
 }

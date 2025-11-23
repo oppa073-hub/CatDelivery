@@ -68,6 +68,8 @@ public class PlayerStatePattern : MonoBehaviour
     }
     private void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.State != GameState.Playing)
+            return;
         // 1) 입력 읽기
         ReadInput();
 

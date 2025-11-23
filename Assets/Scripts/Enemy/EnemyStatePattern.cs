@@ -21,6 +21,7 @@ public class EnemyStatePattern : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.State != GameState.Playing) return;
         currentState.Update();
     }
 
