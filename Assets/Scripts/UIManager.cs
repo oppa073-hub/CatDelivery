@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     private GameObject StartPanel;
     private GameObject TimerPanel;
     private GameObject ClearPanel;
-
+    private GameObject DeadPanel;
 
     private void Awake()
     {
@@ -30,11 +30,14 @@ public class UIManager : MonoBehaviour
         StartPanel = GameObject.Find("StartText");
         TimerPanel = GameObject.Find("Timer");
         ClearPanel = GameObject.Find("ClearPanel");
+        DeadPanel = GameObject.Find("DeadPanel");
 
         TimerPanel.SetActive(false);
         ClearPanel.SetActive(false);
+        DeadPanel.SetActive(false);
 
         GameManager.Instance.OnStageClear += SetClearPanel;
+        GameManager.Instance.OnGameOver += SetDeadPanel;
     }
 
     public void SetStartPanel()
@@ -50,11 +53,17 @@ public class UIManager : MonoBehaviour
         TimerPanel.SetActive(false);
     }
 
+    public void SetDeadPanel()
+    {
+        DeadPanel.SetActive(true);
+    }
     private void OnDestroy()
     {
         if (GameManager.Instance != null)
+        {
             GameManager.Instance.OnStageClear -= SetClearPanel;
-
+            GameManager.Instance.OnGameOver -= SetDeadPanel;
+        }
     }
 
 }

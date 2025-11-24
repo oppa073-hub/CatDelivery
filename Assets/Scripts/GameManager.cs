@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;      // 🔹 게임 재생
         // 여기서 타이틀 패널 끄고 HUD 켜는 것도 가능
     }
-
+    
     public void GameOver()
     {
         State = GameState.GameOver;
