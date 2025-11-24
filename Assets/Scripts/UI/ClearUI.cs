@@ -1,16 +1,18 @@
-using UnityEngine;
-
+﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class ClearUI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+  
+    public void BackBtn()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void restartBtn()
     {
-        
+        Time.timeScale = 1f; // 혹시 멈춰있을 수 있으니까
+        Scene current = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(current.buildIndex);
     }
 }

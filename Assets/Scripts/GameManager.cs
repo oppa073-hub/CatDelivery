@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,21 +19,22 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject); // 🔹 GameManager는 계속 산다
         }
-        // 인스턴스가 존재하는 경우 새로생기는 인스턴스를 삭제한다.
         else if (Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-        // 아래의 함수를 사용하여 씬이 전환되더라도 선언되었던 인스턴스가 파괴되지 않는다.
-        DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        State = GameState.Ready;
-        currentTime = limitTime;
-        Time.timeScale = 0f;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Update()
@@ -47,7 +49,16 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
     }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 여기서 "그 씬의 초기상태"로 되돌리기
+        State = GameState.Ready;
+        currentTime = limitTime;
+        Time.timeScale = 0f;
 
+        // 타이머 UI 초기화해주고 싶으면
+        OnTimeChanged?.Invoke(currentTime);
+    }
     public void GameStart()
     {
         if (State != GameState.Ready) return;
@@ -69,8 +80,10 @@ public class GameManager : MonoBehaviour
     {
         if (State != GameState.Playing) return; 
         State = GameState.Clear;
+        Time.timeScale = 0f;
         OnStageClear?.Invoke();
         // 클리어 UI 등 }
-
+        // 예: 2초 뒤 다음 스테이지 로드
+        // StartCoroutine(NextStageCoroutine());
     }
 }
