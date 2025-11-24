@@ -168,12 +168,21 @@ public class PlayerStatePattern : MonoBehaviour
         CanInput = true;
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Enemy") ||
             collision.collider.CompareTag("Obstacle"))
         {
             TakeDamage(1);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Goal"))
+        {
+            SetState(new ClearState(this));
+            GameManager.Instance.StageClear();
         }
     }
 

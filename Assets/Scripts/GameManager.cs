@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (State != GameState.Playing) return;
+        if (State != GameState.Playing) return;  //플레이 상태가 아니면 시간이 멈춤
 
         currentTime -= Time.deltaTime;
         OnTimeChanged?.Invoke(currentTime);
