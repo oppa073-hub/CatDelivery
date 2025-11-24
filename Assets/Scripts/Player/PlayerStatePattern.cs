@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
+using System.Collections;
+
 public class PlayerStatePattern : MonoBehaviour
 {
     [SerializeField] private int maxHp = 6;
@@ -18,6 +20,7 @@ public class PlayerStatePattern : MonoBehaviour
     private bool isInvincible;
     private float invincibleTimer;
 
+    public bool CanInput { get; private set; } = true;
 
     private Rigidbody2D rigid;      
     private Vector2 moveInput;
@@ -70,8 +73,14 @@ public class PlayerStatePattern : MonoBehaviour
     {
         if (GameManager.Instance != null && GameManager.Instance.State != GameState.Playing)
             return;
+       
         // 1) 입력 읽기
-        ReadInput();
+        if (CanInput)
+        {
+            ReadInput();
+
+        }
+
 
         // 2) 땅 체크
         GroundCheck();
@@ -140,6 +149,17 @@ public class PlayerStatePattern : MonoBehaviour
         invincibleTimer = invincibleDuration;
 
         SetState(new HurtState(this));
+    }
+    public void Stun(float duration)
+    {
+        StartCoroutine(StunCoroutine(duration));
+    }
+
+    private IEnumerator StunCoroutine(float duration)
+    {
+        CanInput = false;
+        yield return new WaitForSeconds(duration);
+        CanInput = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

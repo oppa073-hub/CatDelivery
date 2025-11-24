@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class HurtState : IPlayerState
 {
@@ -6,6 +7,7 @@ public class HurtState : IPlayerState
     private Rigidbody2D rb;
     private float duration = 0.2f;
     private float timer;
+    private float hurtTime = 1f;
 
     public HurtState(PlayerStatePattern Player)
     {
@@ -22,13 +24,16 @@ public class HurtState : IPlayerState
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(knockback * 5f, ForceMode2D.Impulse);
 
+        player.Stun(hurtTime);
+
         // 애니메이션: Hurt 재생 예정 지점
     }
 
     public void Update()
     {
         timer -= Time.deltaTime;
-        if (timer <= 0f)
+       
+        if (timer <= 0f && player.CanInput)
         {
             // 다시 Idle / Run으로
             if (player.MoveInput.sqrMagnitude > 0.01f)
