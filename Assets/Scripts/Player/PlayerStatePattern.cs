@@ -184,6 +184,13 @@ public class PlayerStatePattern : MonoBehaviour
             SetState(new ClearState(this));
             GameManager.Instance.StageClear();
         }
+        else if (collision.CompareTag("DeathZone"))
+        {
+            // 즉사 낙사 처리
+            currentHp = 0;
+            SetState(new DeadState(this));
+            GameManager.Instance.GameOver();
+        }
     }
 
     public void SetState(IPlayerState newState)
