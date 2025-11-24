@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
 
     private GameObject StartPanel;
     private GameObject TimerPanel;
+    private GameObject ClearPanel;
+
 
     private void Awake()
     {
@@ -27,21 +29,32 @@ public class UIManager : MonoBehaviour
     {
         StartPanel = GameObject.Find("StartText");
         TimerPanel = GameObject.Find("Timer");
+        ClearPanel = GameObject.Find("ClearPanel");
 
         TimerPanel.SetActive(false);
+        ClearPanel.SetActive(false);
+
+        GameManager.Instance.OnStageClear += SetClearPanel;
     }
 
     public void SetStartPanel()
     {
         GameManager.Instance.GameStart();
         StartPanel.SetActive(false);
-    }
-
-    public void SetTimerPanel()
-    {
         TimerPanel.SetActive(true);
     }
 
+    public void SetClearPanel()
+    {
+        ClearPanel.SetActive(true);
+        TimerPanel.SetActive(false);
+    }
 
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnStageClear -= SetClearPanel;
+
+    }
 
 }
