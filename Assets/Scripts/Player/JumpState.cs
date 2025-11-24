@@ -32,6 +32,11 @@ public class JumpState : IPlayerState
 
     public void Update()
     {
+        if (player.DashPressed)
+        {
+            player.SetState(new DashState(player));
+            return;
+        }
         if (!player.IsGround)
         {
             return;

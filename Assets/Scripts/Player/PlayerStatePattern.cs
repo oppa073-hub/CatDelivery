@@ -15,6 +15,7 @@ public class PlayerStatePattern : MonoBehaviour
     [SerializeField] private float groundCheckDistance = 0.1f;
     [SerializeField] private int maxJumpCount = 2;
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private float dashSpeed = 20f;
 
     private int currentHp;
     private bool isInvincible;
@@ -29,19 +30,22 @@ public class PlayerStatePattern : MonoBehaviour
     private bool jumpPressed;
     private bool isJumping;
 
+    private bool dashPressed;
+
     public float MoveSpeed => moveSpeed;
     public float JumpForce => jumpForce;
     public LayerMask GroundLayer => groundLayer;             // (타입은 LayerMask가 더 적절하지만, 여기선 코드 그대로 둠)
     public Transform GroundChecker => groundChecker;
     public float GroundCheckDistance => groundCheckDistance;
     public bool JumpPressed => jumpPressed;
+    public bool DashPressed => dashPressed;
     public Rigidbody2D Rigidbody => rigid;
     public bool IsGround => isGround;
     public bool IsJumping => isJumping;
     public Vector2 MoveInput => moveInput;
     public int CurrentHp => currentHp;
     public bool IsInvincible => isInvincible;
-
+    public float DashSpeed => dashSpeed;
 
     private int jumpCount;
     public int JumpCount => jumpCount;
@@ -53,6 +57,7 @@ public class PlayerStatePattern : MonoBehaviour
 
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction dashAction;
 
     private void Awake()
     {
@@ -63,6 +68,7 @@ public class PlayerStatePattern : MonoBehaviour
         var action = playerInput.actions;               // PlayerInput에서 액션맵 가져오기
         moveAction = action["MoveAction"];              // "MoveAction" 이름의 액션
         jumpAction = action["JumpAction"];              // "JumpAction" 이름의 액션
+        dashAction = action["DashAction"];
     }
     private void Start()
     {
@@ -75,12 +81,7 @@ public class PlayerStatePattern : MonoBehaviour
             return;
        
         // 1) 입력 읽기
-        if (CanInput)
-        {
-            ReadInput();
-
-        }
-
+        ReadInput();
 
         // 2) 땅 체크
         GroundCheck();
@@ -90,7 +91,7 @@ public class PlayerStatePattern : MonoBehaviour
 
         // 4) Jump 입력은 1프레임짜리 플래그이므로 처리 후 초기화
         jumpPressed = false;
-
+        dashPressed = false;
         if (isInvincible)
         {
             invincibleTimer -= Time.deltaTime;
@@ -112,6 +113,10 @@ public class PlayerStatePattern : MonoBehaviour
         {
             jumpPressed = true;
         }
+        if (dashAction.WasPerformedThisFrame())
+        {
+            dashPressed = true;
+        }
     }
 
     private void GroundCheck()
@@ -132,6 +137,7 @@ public class PlayerStatePattern : MonoBehaviour
     {
         if (isInvincible) return;
         currentHp -= dmg;
+        Debug.Log(currentHp);
 
         if (currentHp <= 0)
         {

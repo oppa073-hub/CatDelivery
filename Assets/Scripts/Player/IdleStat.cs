@@ -25,6 +25,11 @@ public class IdleStat : IPlayerState
 
     public void Update()
     {
+        if (player.DashPressed)
+        {
+            player.SetState(new DashState(player));
+            return;
+        }
         if (player.JumpPressed && player.JumpCount < player.MaxJumpCount)
         {
             player.SetState(new JumpState(player));
@@ -37,5 +42,6 @@ public class IdleStat : IPlayerState
             player.SetState(new RunState(player));
             return;
         }
+      
     }
 }
