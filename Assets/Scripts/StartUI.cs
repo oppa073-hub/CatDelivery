@@ -20,6 +20,7 @@ public class StartUI : MonoBehaviour
         if (anyKey || mouseClick)
         {
             started = true;
+            UIManager.Instance.SetTimerPanel();
             UIManager.Instance.SetStartPanel();
         }
             

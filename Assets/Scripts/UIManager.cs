@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     private GameObject StartPanel;
+    private GameObject TimerPanel;
 
     private void Awake()
     {
@@ -25,12 +26,20 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         StartPanel = GameObject.Find("StartText");
+        TimerPanel = GameObject.Find("Timer");
+
+        TimerPanel.SetActive(false);
     }
 
     public void SetStartPanel()
     {
         GameManager.Instance.GameStart();
         StartPanel.SetActive(false);
+    }
+
+    public void SetTimerPanel()
+    {
+        TimerPanel.SetActive(true);
     }
 
 
