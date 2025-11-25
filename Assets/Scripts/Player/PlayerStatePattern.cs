@@ -55,6 +55,10 @@ public class PlayerStatePattern : MonoBehaviour
 
     private IPlayerState currentState; // 현재 플레이어 상태 객체
 
+    private Animator animator;
+    public Animator Animator => animator;
+
+
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction dashAction;
@@ -62,6 +66,7 @@ public class PlayerStatePattern : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();             // Rigidbody2D 캐싱
+        animator = GetComponent<Animator>();
 
         currentHp = maxHp;
 
@@ -127,6 +132,9 @@ public class PlayerStatePattern : MonoBehaviour
             Vector2.down,
             groundCheckDistance,
             groundLayer);
+
+        animator.SetBool("IsGround", isGround);
+
         if (IsGround && Rigidbody.linearVelocity.y <= 0)
         {
             ResetJumpCount();
@@ -142,6 +150,9 @@ public class PlayerStatePattern : MonoBehaviour
         if (currentHp <= 0)
         {
             currentHp = 0;
+
+            animator.SetBool("Dead", true);
+
             // 죽는 상태로 전환
             SetState(new DeadState(this));
 
