@@ -9,7 +9,7 @@ public class PatrolState : IEnemyState
     private float moveSpeed;
     private float detectRange;
     private Transform player;
-
+    private Animator animator;
     public PatrolState(EnemyStatePattern Enemy)
     {
         enemy = Enemy;
@@ -17,6 +17,7 @@ public class PatrolState : IEnemyState
         moveSpeed = enemy.MoveSpeed;
         player = enemy.PlayerTrf;
         detectRange = enemy.DetectRange;
+        animator = enemy.Animator;
     }
 
     public void Enter()
@@ -46,6 +47,7 @@ public class PatrolState : IEnemyState
         //플레이어 감지 및 상태 변경
         if (Vector2.Distance(enemy.transform.position, player.position) <= detectRange)
         {
+            animator.SetBool("Chaseing", true);
             enemy.SetState(new ChaseState(enemy));
         }
     }
