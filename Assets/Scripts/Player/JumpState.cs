@@ -32,6 +32,16 @@ public class JumpState : IPlayerState
 
     public void Update()
     {
+        Vector2 velocity = rigid.linearVelocity;
+        velocity.x = player.MoveInput.x * player.MoveSpeed;
+        rigid.linearVelocity = velocity;
+
+        if (player.MoveInput.x > 0.01f)
+            player.SpriteRenderer.flipX = false;
+        else if (player.MoveInput.x < -0.01f)
+            player.SpriteRenderer.flipX = true;
+
+
         if (player.DashPressed)
         {
             player.SetState(new DashState(player));
