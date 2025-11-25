@@ -34,7 +34,15 @@ public class PatrolState : IEnemyState
     {
         if (patrolPoints.Length == 0)
             return;
+
         Transform target = patrolPoints[currentPatrolIndex];
+
+        Vector3 direction = (target.position - enemy.transform.position).normalized;
+
+        if (!Mathf.Approximately(direction.x, 0f))
+        {
+            enemy.SpriteRenderer.flipX = direction.x < 0f; // 왼쪽이면 true, 오른쪽이면 false
+        }
 
         enemy.transform.position = Vector2.MoveTowards(enemy.transform.position,
            target.position, moveSpeed * Time.deltaTime);

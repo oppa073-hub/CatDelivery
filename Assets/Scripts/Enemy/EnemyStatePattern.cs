@@ -19,9 +19,12 @@ public class EnemyStatePattern : MonoBehaviour
     private Animator animator;
     public Animator Animator => animator;
 
+    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer SpriteRenderer => spriteRenderer;
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
