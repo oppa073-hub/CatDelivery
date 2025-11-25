@@ -26,6 +26,15 @@ public class RunState : IPlayerState
 
     public void Update()
     {
+        if (player.MoveInput.x > 0.01f)
+        {
+            player.SpriteRenderer.flipX = false;
+        }
+        else if (player.MoveInput.x < -0.01f)
+        {
+            player.SpriteRenderer.flipX = true;
+        }
+
         if (player.DashPressed)
         {
             player.SetState(new DashState(player));

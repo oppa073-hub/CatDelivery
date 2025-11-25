@@ -58,6 +58,8 @@ public class PlayerStatePattern : MonoBehaviour
     private Animator animator;
     public Animator Animator => animator;
 
+    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer SpriteRenderer => spriteRenderer;
 
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -67,6 +69,7 @@ public class PlayerStatePattern : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();             // Rigidbody2D 캐싱
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         currentHp = maxHp;
 
