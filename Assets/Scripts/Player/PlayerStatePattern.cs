@@ -169,6 +169,7 @@ public class PlayerStatePattern : MonoBehaviour
         invincibleTimer = invincibleDuration;
 
         SetState(new HurtState(this));
+        StartCoroutine(BlinkCoroutine());
     }
     public void Stun(float duration)
     {
@@ -181,7 +182,24 @@ public class PlayerStatePattern : MonoBehaviour
         yield return new WaitForSeconds(duration);
         CanInput = true;
     }
+    private IEnumerator BlinkCoroutine()
+    {
+        Color original = spriteRenderer.color;
+        Color blinkColor = original;
+        blinkColor.a = 0.3f;   // 살짝 투명
 
+        while (isInvincible)
+        {
+            spriteRenderer.color = blinkColor;
+            yield return new WaitForSeconds(0.1f);
+
+            spriteRenderer.color = original;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        // 무적 끝나면 원래색 고정
+        spriteRenderer.color = original;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
