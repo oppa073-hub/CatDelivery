@@ -152,7 +152,7 @@ public class PlayerStatePattern : MonoBehaviour
         if (isInvincible) return;
         currentHp -= dmg;
         Debug.Log(currentHp);
-
+        HpUI.instance.UpdateHeart(currentHp);
         if (currentHp <= 0)
         {
             currentHp = 0;
