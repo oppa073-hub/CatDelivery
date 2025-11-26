@@ -7,6 +7,7 @@ public class BossStatePattern : MonoBehaviour
     [SerializeField] private float detectRange = 8f;   // 플레이어 인식 거리
     [SerializeField] private int maxHp = 5;
 
+
     [SerializeField] private Animator animator;
     private SpriteRenderer spriteRenderer;
 
@@ -66,6 +67,7 @@ public class BossStatePattern : MonoBehaviour
         // 지금은 뼈대만:
         Debug.Log($"Boss Use Skill: {skillIndex}");
     }
+
     public void SetState(IEnemyState newState)
     {
         _currentState?.Exit();

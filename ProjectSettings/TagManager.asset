@@ -8,6 +8,7 @@ TagManager:
   - DeathZone
   - Goal
   - Obstacle
+  - Head
   layers:
   - Default
   - TransparentFX

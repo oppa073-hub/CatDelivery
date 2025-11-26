@@ -208,6 +208,20 @@ public class PlayerStatePattern : MonoBehaviour
         {
             TakeDamage(1);
         }
+        else if (collision.collider.CompareTag("Head"))
+        {
+            
+            var boss = collision.collider.GetComponentInParent<BossStatePattern>();
+            if (boss != null)
+            {
+                Debug.Log(boss.CurrentHp);
+                boss.TakeDamage(1);
+            }
+            Vector2 knockback = new Vector2(-5f, 2f);
+            rigid.linearVelocity = Vector2.zero;
+            rigid.AddForce(knockback * 5f, ForceMode2D.Impulse);
+
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
