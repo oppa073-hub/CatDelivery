@@ -52,4 +52,9 @@ public class PoolManager : MonoBehaviour
         }
         return select;
     }
+    public void Return(GameObject obj)
+    {
+        obj.SetActive(false);
+        obj.transform.SetParent(transform);
+    }
 }

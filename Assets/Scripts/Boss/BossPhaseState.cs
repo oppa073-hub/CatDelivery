@@ -8,6 +8,7 @@ public class BossPhaseState : IEnemyState
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private float detectRange;
+    private BossBallSkill ballSkill;
 
     private float skillCooldown = 3f;   // 스킬 사용 주기
     private float skillTimer = 0f;
@@ -20,6 +21,7 @@ public class BossPhaseState : IEnemyState
         animator = boss.Animator;
         spriteRenderer = boss.SpriteRenderer;
         detectRange = boss.DetectRange;
+        ballSkill = boss.GetComponent<BossBallSkill>();
     }
     public void Enter()
     {
@@ -50,8 +52,8 @@ public class BossPhaseState : IEnemyState
         if (skillTimer >= skillCooldown)
         {
             skillTimer = 0f; // 스킬 발동 (아직 실제 구현 X)
-            //animator.SetTrigger("Cast");
-            boss.UseSkill(0); // 0번 스킬 사용 (예시)
+            Debug.Log("Boss Cast Skill!");
+            ballSkill.Cast(); // 0번 스킬 사용 (예시)
         }
         Vector3 direction = (player.position - boss.transform.position).normalized;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BossBallSkill : SkillBase
 {
-    [SerializeField] private int poolIndex = 1;
+    [SerializeField] private int poolIndex = 0;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float speed = 8f;
 
@@ -16,11 +16,14 @@ public class BossBallSkill : SkillBase
         ball.transform.position = firePoint.position;
         ball.transform.rotation = Quaternion.identity;
 
-        // 2) 프로젝트일 초기화
         var proj = ball.GetComponent<BossBallProjectile>();
         if (proj != null)
         {
-            proj.Init(owner, speed);
+            // ★ 플레이어 방향 벡터 계산 (owner = 보스)
+            Vector2 dir = (owner.Player.position - owner.transform.position).normalized;
+
+            // ★ 발사 방향, 속력 전달
+            proj.Init(dir, speed);
         }
     }
 }

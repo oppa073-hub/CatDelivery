@@ -21,6 +21,8 @@ public class PlayerStatePattern : MonoBehaviour
     private bool isInvincible;
     private float invincibleTimer;
 
+    public BossBallProjectile bullet;
+
     public bool CanInput { get; private set; } = true;
 
     private Rigidbody2D rigid;      
@@ -70,6 +72,7 @@ public class PlayerStatePattern : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();             // Rigidbody2D 캐싱
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        
 
         currentHp = maxHp;
 
@@ -243,6 +246,13 @@ public class PlayerStatePattern : MonoBehaviour
             currentHp = 0;
             SetState(new DeadState(this));
             GameManager.Instance.GameOver();
+        }
+        if (collision.CompareTag("Bullet"))
+        {
+            TakeDamage(bullet.damage);
+
+            // 총알 반환
+            PoolManager.Instance.Return(collision.gameObject);
         }
     }
 

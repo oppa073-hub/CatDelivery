@@ -32,13 +32,16 @@ public class BossStatePattern : MonoBehaviour
 
     private void Start()
     {
+        foreach (var skill in skills)
+        {
+            if (skill != null)
+                skill.Init(this);
+        }
+
         // 시작은 대기 상태
         SetState(new BossIdleState(this));
 
-        foreach (var skill in skills)
-        {
-            skill.Init(this);
-        }
+        
     }
 
     private void Update()
@@ -65,13 +68,7 @@ public class BossStatePattern : MonoBehaviour
         animator.SetTrigger("Hurt");
         gameObject.SetActive(false);
     }
-    public void UseSkill(int index)
-    {
-  
-        if (index < 0 || index >= skills.Length) return;
-        skills[index].Cast();
-        Debug.Log($"Boss Use Skill: {index}");
-    }
+    
 
     public void SetState(IEnemyState newState)
     {
