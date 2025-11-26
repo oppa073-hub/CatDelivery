@@ -4,17 +4,17 @@ public class BossStatePattern : MonoBehaviour
 {
     [SerializeField] private Transform player;
     [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float aggroRange = 8f;   // 플레이어 인식 거리
+    [SerializeField] private float detectRange = 8f;   // 플레이어 인식 거리
     [SerializeField] private int maxHp = 5;
 
     [SerializeField] private Animator animator;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
 
     private IEnemyState _currentState;
 
     public Transform Player => player;
     public float MoveSpeed => moveSpeed;
-    public float AggroRange => aggroRange;
+    public float DetectRange => detectRange;
     public int MaxHp => maxHp;
     public int CurrentHp { get; private set; }
 
@@ -49,15 +49,15 @@ public class BossStatePattern : MonoBehaviour
         }
         else
         {
-            //animator.SetTrigger("Hit");
+            animator.SetTrigger("Hurt");
         }
     }
 
     private void Die()
     {
         // 죽는 연출 넣고, 끝나면 비활성화 등
-        //animator.SetTrigger("Die");
-        // 여기서 콜라이더 꺼주거나 게임 승리 처리
+        animator.SetTrigger("Hurt");
+        gameObject.SetActive(false);
     }
     public void UseSkill(int skillIndex)
     {

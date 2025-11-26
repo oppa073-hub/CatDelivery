@@ -7,6 +7,7 @@ public class BossPhaseState : IEnemyState
     private float moveSpeed;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private float detectRange;
 
     private float skillCooldown = 3f;   // 스킬 사용 주기
     private float skillTimer = 0f;
@@ -18,14 +19,15 @@ public class BossPhaseState : IEnemyState
         moveSpeed = boss.MoveSpeed;
         animator = boss.Animator;
         spriteRenderer = boss.SpriteRenderer;
+        detectRange = boss.DetectRange;
     }
     public void Enter()
     {
-        animator.SetBool("IsMoving", true);
+        animator.SetBool("chasing", true);
     }
     public void Exit()
     {
-        animator.SetBool("IsMoving", false);
+
     }
     public void Update()
     {
@@ -37,18 +39,27 @@ public class BossPhaseState : IEnemyState
         // 좌우 방향 전환 (플레이어처럼)
         if (!Mathf.Approximately(dir.x, 0f))
         {
-            spriteRenderer.flipX = dir.x < 0f;
+            spriteRenderer.flipX = dir.x > 0f;
         }
 
-        boss.transform.position += dir * moveSpeed * Time.deltaTime;
+        Vector3 nextPos = new Vector3(boss.transform.position.x + dir.x * moveSpeed * Time.deltaTime,
+             boss.transform.position.y);
+        boss.transform.position = nextPos;
 
         skillTimer += Time.deltaTime;
         if (skillTimer >= skillCooldown)
         {
             skillTimer = 0f; // 스킬 발동 (아직 실제 구현 X)
-            animator.SetTrigger("Cast");
+            //animator.SetTrigger("Cast");
             boss.UseSkill(0); // 0번 스킬 사용 (예시)
         }
+        Vector3 direction = (player.position - boss.transform.position).normalized;
 
+        //플레이어가 범위를 벗어나면 Patrol 상태로 전이
+        if (Vector2.Distance(boss.transform.position, player.position) > detectRange)
+        {
+            animator.SetBool("chasing", false);
+            boss.SetState(new BossIdleState(boss));
+        }
     }
 }
