@@ -16,6 +16,7 @@ public class PlayerStatePattern : MonoBehaviour
     [SerializeField] private int maxJumpCount = 2;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private PlayerSkillBase[] skills;
 
     private int currentHp;
     private bool isInvincible;
@@ -63,9 +64,13 @@ public class PlayerStatePattern : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public SpriteRenderer SpriteRenderer => spriteRenderer;
 
+    private bool skillPressed;
+    public bool SkillPressed => skillPressed;
+
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction dashAction;
+    private InputAction skillAction;
 
     private void Awake()
     {
@@ -80,11 +85,17 @@ public class PlayerStatePattern : MonoBehaviour
         moveAction = action["MoveAction"];              // "MoveAction" 이름의 액션
         jumpAction = action["JumpAction"];              // "JumpAction" 이름의 액션
         dashAction = action["DashAction"];
+        skillAction = action["SkillAction"];
     }
     private void Start()
     {
         // 시작 상태는 Idle
         SetState(new IdleStat(this));
+        foreach (var skill in skills)
+        {
+            if (skill != null)
+                skill.Init(this);
+        }
     }
     private void Update()
     {
@@ -100,9 +111,16 @@ public class PlayerStatePattern : MonoBehaviour
         // 3) 현재 상태의 Update 호출
         currentState?.Update();
 
+
+        if (skillPressed)
+        {
+            UseSkill();
+        }
+
         // 4) Jump 입력은 1프레임짜리 플래그이므로 처리 후 초기화
         jumpPressed = false;
         dashPressed = false;
+        skillPressed = false;
         if (isInvincible)
         {
             invincibleTimer -= Time.deltaTime;
@@ -113,7 +131,14 @@ public class PlayerStatePattern : MonoBehaviour
 
         }
     }
-
+    private void UseSkill()
+    {
+        // 1번 스킬만 쓸 거면:
+        if (skills.Length > 0 && skills[0] != null)
+        {
+            skills[0].Cast();
+        }
+    }
     private void ReadInput()
     {
         // MoveAction의 Vector2 값 읽기 (x: 좌우, y: 필요하면 위아래)
@@ -127,6 +152,10 @@ public class PlayerStatePattern : MonoBehaviour
         if (dashAction.WasPerformedThisFrame())
         {
             dashPressed = true;
+        }
+        if (skillAction.WasPerformedThisFrame())
+        {
+            skillPressed = true;       
         }
     }
 
