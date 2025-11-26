@@ -9,6 +9,7 @@ TagManager:
   - Goal
   - Obstacle
   - Head
+  - Bullet
   layers:
   - Default
   - TransparentFX
