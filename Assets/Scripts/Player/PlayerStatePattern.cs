@@ -210,17 +210,24 @@ public class PlayerStatePattern : MonoBehaviour
         }
         else if (collision.collider.CompareTag("Head"))
         {
-            
+            var enemy = collision.collider.GetComponentInParent<EnemyStatePattern>();
             var boss = collision.collider.GetComponentInParent<BossStatePattern>();
             if (boss != null)
             {
                 Debug.Log(boss.CurrentHp);
                 boss.TakeDamage(1);
+                Vector2 knockback = new Vector2(-1f, 2f);
+                rigid.linearVelocity = Vector2.zero;
+                rigid.AddForce(knockback * 5f, ForceMode2D.Impulse);
             }
-            Vector2 knockback = new Vector2(-5f, 2f);
-            rigid.linearVelocity = Vector2.zero;
-            rigid.AddForce(knockback * 5f, ForceMode2D.Impulse);
-
+            else if (enemy != null)
+            {
+                enemy.TakeDamage(1);
+                Vector2 knockback = new Vector2(-1f, 1f);
+                rigid.linearVelocity = Vector2.zero;
+                rigid.AddForce(knockback * 5f, ForceMode2D.Impulse);
+            }
+          
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
