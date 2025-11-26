@@ -6,7 +6,7 @@ public class BossStatePattern : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float detectRange = 8f;   // 플레이어 인식 거리
     [SerializeField] private int maxHp = 5;
-
+    [SerializeField] private SkillBase[] skills;
 
     [SerializeField] private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -34,6 +34,11 @@ public class BossStatePattern : MonoBehaviour
     {
         // 시작은 대기 상태
         SetState(new BossIdleState(this));
+
+        foreach (var skill in skills)
+        {
+            skill.Init(this);
+        }
     }
 
     private void Update()
@@ -60,12 +65,12 @@ public class BossStatePattern : MonoBehaviour
         animator.SetTrigger("Hurt");
         gameObject.SetActive(false);
     }
-    public void UseSkill(int skillIndex)
+    public void UseSkill(int index)
     {
   
-        // 스킬 종류가 적으면 switch로 바로 처리해도 됨.
-        // 지금은 뼈대만:
-        Debug.Log($"Boss Use Skill: {skillIndex}");
+        if (index < 0 || index >= skills.Length) return;
+        skills[index].Cast();
+        Debug.Log($"Boss Use Skill: {index}");
     }
 
     public void SetState(IEnemyState newState)
