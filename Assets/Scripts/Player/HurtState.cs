@@ -19,14 +19,14 @@ public class HurtState : IPlayerState
     {
         timer = duration;
 
-        // 넉백 예시 (왼쪽으로 튕기게)
+        // 넉백  
         Vector2 knockback = new Vector2(-1f, 1f);
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(knockback * 5f, ForceMode2D.Impulse);
 
         player.Stun(hurtTime);
 
-        // 애니메이션: Hurt 재생 예정 지점
+       
     }
 
     public void Update()

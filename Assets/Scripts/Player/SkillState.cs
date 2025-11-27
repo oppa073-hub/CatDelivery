@@ -16,9 +16,9 @@ public class SkillState : IPlayerState
         skillTimer += Time.deltaTime;
         if (skillTimer >= skillCooldown)
         {
-            skillTimer = 0f; // 스킬 발동 (아직 실제 구현 X)
+            skillTimer = 0f; // 스킬 발동 
             Debug.Log("player Cast Skill!");
-            skill.Cast(); // 0번 스킬 사용 (예시)
+            skill.Cast(); // 0번 스킬 사용
         }
     }
 

@@ -36,7 +36,7 @@ public class IdleStat : IPlayerState
             return;
         }
 
-        // 2) 이동 입력이 조금이라도 있다면 → Run 상태로 전환
+        // 이동 입력이 조금이라도 있다면  Run 상태로 전환
         if (player.MoveInput.sqrMagnitude >= 0.01f)
         {
             player.SetState(new RunState(player));

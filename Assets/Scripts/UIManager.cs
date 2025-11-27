@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
-        // 인스턴스가 존재하는 경우 새로생기는 인스턴스를 삭제한다.
+        
         else if (Instance != this)
         {
             Destroy(gameObject);

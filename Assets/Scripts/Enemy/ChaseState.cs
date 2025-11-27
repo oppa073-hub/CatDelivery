@@ -30,7 +30,7 @@ public class ChaseState : IEnemyState
     {
         Vector3 direction = (player.position - enemy.transform.position).normalized;
 
-        // ★ 이동 방향에 따라 flip
+        // 이동 방향에 따라 flip
         if (!Mathf.Approximately(direction.x, 0f))
         {
             enemy.SpriteRenderer.flipX = direction.x < 0f;

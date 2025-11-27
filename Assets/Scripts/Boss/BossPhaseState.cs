@@ -38,7 +38,7 @@ public class BossPhaseState : IEnemyState
         // 이동 방향
         Vector3 dir = (player.position - boss.transform.position).normalized;
 
-        // 좌우 방향 전환 (플레이어처럼)
+        // 좌우 방향 전환
         if (!Mathf.Approximately(dir.x, 0f))
         {
             spriteRenderer.flipX = dir.x > 0f;
@@ -51,9 +51,9 @@ public class BossPhaseState : IEnemyState
         skillTimer += Time.deltaTime;
         if (skillTimer >= skillCooldown)
         {
-            skillTimer = 0f; // 스킬 발동 (아직 실제 구현 X)
+            skillTimer = 0f; // 스킬 발동 
             Debug.Log("Boss Cast Skill!");
-            ballSkill.Cast(); // 0번 스킬 사용 (예시)
+            ballSkill.Cast(); // 0번 스킬 사용
         }
         Vector3 direction = (player.position - boss.transform.position).normalized;
 

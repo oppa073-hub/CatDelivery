@@ -17,8 +17,7 @@ public class DeadState : IPlayerState
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;   // 물리 멈추거나, 반대로 ragdoll처럼 놔두거나
 
-        // 입력도 더이상 안 받게 하고 싶으면
-        // PlayerStatePattern에서 GameState.GameOver면 Update() 자체 Return하게 되어 있으니 그걸로도 충분
+      
     }
 
     public void Exit()
