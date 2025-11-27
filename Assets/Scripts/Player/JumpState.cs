@@ -16,13 +16,7 @@ public class JumpState : IPlayerState
 
     public void Enter()
     {
-        if (player.JumpCount < player.MaxJumpCount)
-        {
-            Vector2 velocity = rigid.linearVelocity;
-        velocity.y = jumpForce;
-        rigid.linearVelocity = velocity;
-            player.AddJumpCount();
-        }
+        TryJump();
     }
 
     public void Exit()
@@ -41,7 +35,10 @@ public class JumpState : IPlayerState
         else if (player.MoveInput.x < -0.01f)
             player.SpriteRenderer.flipX = true;
 
-
+        if (player.JumpPressed)
+        {
+            TryJump();   // 남은 점프 횟수 있으면 한 번 더 점프
+        }
         if (player.DashPressed)
         {
             player.SetState(new DashState(player));
@@ -63,5 +60,17 @@ public class JumpState : IPlayerState
                 player.SetState(new RunState(player));
             }
         }
+    }
+    private void TryJump()
+    {
+        if (player.JumpCount >= player.MaxJumpCount)
+            return;
+
+        Vector2 v = rigid.linearVelocity;
+        v.y = jumpForce;
+        rigid.linearVelocity = v;
+
+        player.AddJumpCount();
+     
     }
 }
