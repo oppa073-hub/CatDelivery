@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class PlayerSkillBase : MonoBehaviour
 {
     protected PlayerStatePattern owner;
-    [SerializeField] protected float cooldown = 3f;  // 쿨타임 (초)
+    [SerializeField] protected float cooldown = 10f;  // 쿨타임 (초)
     protected float cooldownTimer = 0f;
 
     public bool IsOnCooldown => cooldownTimer > 0f;
@@ -29,6 +29,7 @@ public abstract class PlayerSkillBase : MonoBehaviour
     }
     public void TryCast()
     {
+        if (!IsReady) return;
         Cast();
         cooldownTimer = cooldown;   
     }

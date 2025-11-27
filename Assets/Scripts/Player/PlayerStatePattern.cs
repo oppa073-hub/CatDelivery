@@ -111,7 +111,11 @@ public class PlayerStatePattern : MonoBehaviour
         // 3) 현재 상태의 Update 호출
         currentState?.Update();
 
-
+        foreach (var skill in skills)
+        {
+            if (skill != null)
+                skill.Tick(Time.deltaTime);
+        }
         if (skillPressed)
         {
             UseSkill();
@@ -136,7 +140,7 @@ public class PlayerStatePattern : MonoBehaviour
         // 1번 스킬만 쓸 거면:
         if (skills.Length > 0 && skills[0] != null)
         {
-            skills[0].Cast();
+            skills[0].TryCast();
         }
     }
     private void ReadInput()

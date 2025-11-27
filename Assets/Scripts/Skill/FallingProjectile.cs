@@ -26,12 +26,17 @@ public class FallingProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Head"))
         {
-            var player = other.GetComponentInParent<PlayerStatePattern>();
-            if (player != null)
+            var enemy = other.GetComponentInParent<EnemyStatePattern>();
+            var boss = other.GetComponentInParent<BossStatePattern>();
+            if (enemy != null)
             {
-                player.TakeDamage(1);
+                enemy.TakeDamage(1);
+            }
+            else if (boss != null)
+            {
+                boss.TakeDamage(1);
             }
             PoolManager.Instance.Return(gameObject);
         }
