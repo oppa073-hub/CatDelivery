@@ -252,7 +252,7 @@ MonoBehaviour:
   player: {fileID: 236228928}
   moveSpeed: 2
   detectRange: 8
-  maxHp: 5
+  maxHp: 3
   skills:
   - {fileID: 38385922}
   goal: {fileID: 2119385598}
@@ -1181,7 +1181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e8d584ac28b8d44a3ee60c336d1362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatRainSkill
-  cooldown: 5
+  cooldown: 3
   poolIndex: 1
   spawnArea: {fileID: 2138315513}
   spawnInterval: 0.2
