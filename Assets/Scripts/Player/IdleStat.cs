@@ -1,6 +1,6 @@
-﻿using NUnit.Framework.Interfaces;
+﻿
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 public class IdleStat : IPlayerState
 {
