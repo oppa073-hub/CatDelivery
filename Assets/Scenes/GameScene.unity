@@ -1161,7 +1161,7 @@ Transform:
   m_GameObject: {fileID: 236228921}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 122.09, y: -1.6, z: 0}
+  m_LocalPosition: {x: 0.06, y: -2.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1181,7 +1181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e8d584ac28b8d44a3ee60c336d1362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatRainSkill
-  cooldown: 3
+  cooldown: 5
   poolIndex: 1
   spawnArea: {fileID: 2138315513}
   spawnInterval: 0.2
@@ -1700,7 +1700,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 122.09001, y: -0.017035723, z: -10}
+  m_LocalPosition: {x: 0.45570278, y: -0.017105341, z: -10}
   m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2936,7 +2936,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 83.710785, y: -0.01626873}
+  m_Offset: {x: 12.743782, y: -0.01626873}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2946,7 +2946,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 318.98026, y: 10.616093}
+  m_Size: {x: 177.04625, y: 10.616093}
   m_EdgeRadius: 0
 --- !u!4 &981482031
 Transform:
@@ -3840,7 +3840,7 @@ GameObject:
   - component: {fileID: 1382841948}
   m_Layer: 6
   m_Name: Gruond Tilemap
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9398,7 +9398,7 @@ Transform:
   m_GameObject: {fileID: 1958651315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 122.09, y: -1.6, z: -10}
+  m_LocalPosition: {x: 0.06, y: -2.14, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
